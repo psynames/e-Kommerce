@@ -1,4 +1,4 @@
-using INFRASTUCTURE.Data;
+using INFRASTRUCTURE.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,12 +43,15 @@ namespace API
                     //will create the database if it does not already exist
                     await context.Database.MigrateAsync();
 
-                }catch(Exception ex)
+                    await StoreDbContextSeed.SeedAsync(context, loggerFactory);
+
+                }
+                catch(Exception ex)
                 {
                     var logger = loggerFactory.CreateLogger<Program>();
                     logger.LogError(ex, "An Error Occured During Migraion");
                 }
-                
+              
             }
 
             host.Run();

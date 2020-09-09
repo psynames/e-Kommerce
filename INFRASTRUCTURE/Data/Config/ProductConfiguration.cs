@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace INFRASTUCTURE.Data.Config
+namespace INFRASTRUCTURE.Data.Config
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {

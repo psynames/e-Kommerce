@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace INFRASTUCTURE.Data
+namespace INFRASTRUCTURE.Data
 {
     public class StoreDbContext : DbContext
     {
