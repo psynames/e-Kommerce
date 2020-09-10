@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CORE.Entities;
+﻿using CORE.Entities;
 using CORE.Interfaces;
-using INFRASTRUCTURE.Data;
+using CORE.Specifications;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -14,7 +11,7 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        #region PRIVATE FIELDS
+        #region  Fields
 
         private readonly IGenericRepository<Product> _productsRepo;
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
@@ -36,12 +33,20 @@ namespace API.Controllers
 
         #endregion
 
+        #region  public async Task<ActionResult<Product>> GetProducts()
+
         [HttpGet]
         public async Task<ActionResult<Product>> GetProducts()
         {
-            var products = await _productsRepo.ListAllAsync();
+            var spec = new ProductsWithTypesAndBrandsSpecification();
+
+            var products = await _productsRepo.ListAsync(spec);
             return Ok(products);
         }
+
+        #endregion
+
+        #region  public async Task<ActionResult<Product>> GetProduct(int id)
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
@@ -50,16 +55,27 @@ namespace API.Controllers
             return Ok(product);
         }
 
-        [HttpGet("brands")]
-        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
-        {
-            return Ok(await _productBrandRepo.ListAllAsync());
-        }
+        #endregion
+
+        #region public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
 
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
         {
             return Ok(await _productTypeRepo.ListAllAsync());
         }
+
+        #endregion
+
+        #region public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
+        {
+            return Ok(await _productBrandRepo.ListAllAsync());
+        }
+
+        #endregion
+
     }
 }

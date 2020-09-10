@@ -6,14 +6,23 @@ using System.Text;
 namespace CORE.Specifications
 {
    
-    class BaseSpecification<T> : ISpecification<T>
+   public  class BaseSpecification<T> : ISpecification<T>
     {
-      
+        #region CONSTRUCTOR
+
+        public BaseSpecification()
+        {
+
+        }
 
         public BaseSpecification(Expression<Func<T, bool>> criteria)
         {
             Criteria = criteria;
         }
+
+        #endregion
+
+
         public Expression<Func<T, bool>> Criteria { get; }
 
         public List<Expression<Func<T, object>>> Includes { get; } =
