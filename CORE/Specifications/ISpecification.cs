@@ -9,5 +9,6 @@ namespace CORE.Specifications
     {
         Expression<Func<T, bool>> Criteria { get;}
         List<Expression<Func<T, object>>> Includes { get; }
+        
     }
 }
