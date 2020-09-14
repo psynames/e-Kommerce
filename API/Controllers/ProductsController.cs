@@ -40,16 +40,17 @@ namespace API.Controllers
 
         #endregion
 
-        #region  public async Task<ActionResult<List<Product>>> GetProducts()
+        #region  public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
         {
             var spec = new ProductsWithTypesAndBrandsSpecification();
 
             var products = await _productsRepo.ListAsync(spec);
 
-            return NoContent();
+            return Ok(
+                _mapper.Map<IReadOnlyList<Product>,IReadOnlyList<ProductToReturnDto>>(products));
         }
 
         #endregion
