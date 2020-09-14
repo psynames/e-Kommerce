@@ -48,6 +48,11 @@ namespace API
                 app.UseDeveloperExceptionPage();
             }
 
+            //in the event that a request hit our API server but we do not have an end point that matches
+            // that particular request, we gonna hit this middleware and get redirected to our errors controller
+            // thatmatches that particular request, we gonna hit this 
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -1,4 +1,5 @@
-﻿using INFRASTRUCTURE.Data;
+﻿using API.Errors;
+using INFRASTRUCTURE.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace API.Controllers
             var thing = _dbcontext.Products.Find(45);
             if (thing == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse(404));
             }
             return Ok();
 
@@ -42,7 +43,7 @@ namespace API.Controllers
         public ActionResult GetBAdRequest()
         {
     
-            return BadRequest();
+            return BadRequest(new ApiResponse(400));
 
 
         }
@@ -52,7 +53,7 @@ namespace API.Controllers
             var thing = _dbcontext.Products.Find(45);
             if (thing == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse(404));
             }
             return Ok();
 
