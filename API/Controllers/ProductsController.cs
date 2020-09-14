@@ -1,8 +1,10 @@
 ﻿using API.Dtos;
+using API.Errors;
 using AutoMapper;
 using CORE.Entities;
 using CORE.Interfaces;
 using CORE.Specifications;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,7 @@ namespace API.Controllers
 
         #endregion
 
-        #region CONSTRUCTOR
+        #region Constructor
 
         public ProductsController(
             IGenericRepository<Product> productRepo,
@@ -38,6 +40,8 @@ namespace API.Controllers
         }
 
         #endregion
+
+        #region Methods
 
         #region  public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts()
 
@@ -56,12 +60,21 @@ namespace API.Controllers
 
         #region  public async Task<ActionResult<Product>> GetProduct(int id)
 
+        #region Attributes
+
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status404NotFound)]
+
+        #endregion
+
         public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
 
             var product = await _productsRepo.GetEntityWithSpec(spec);
+
+            if (product == null) return NotFound(new ApiResponse(404));
 
 
             return _mapper.Map<Product, ProductToReturnDto>(product);
@@ -86,6 +99,8 @@ namespace API.Controllers
         {
             return Ok(await _productBrandRepo.ListAllAsync());
         }
+
+        #endregion
 
         #endregion
 
