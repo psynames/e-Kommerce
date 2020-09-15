@@ -32,16 +32,22 @@ namespace CORE.Specifications
 
         public Expression<Func<T, object>> OrderByDescending { get; private set; }
 
-        #endregion
+        public int Take { get; private set; }
+
+        public int Skip { get; private set; }
+
+    public bool IsPagingEnabled { get; private set; }
+
+#endregion
 
         #region Methods 
 
         #region protected void AddInclude(Expression<Func<T, object>> includeExpression)
 
         protected void AddInclude(Expression<Func<T, object>> includeExpression)
-        {
-            Includes.Add(includeExpression);
-        }
+                {
+                    Includes.Add(includeExpression);
+                }
 
         #endregion
 
@@ -59,6 +65,17 @@ namespace CORE.Specifications
         protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
         {
             OrderByDescending = orderByDescExpression;
+        }
+
+        #endregion
+
+        #region protected void ApplyPaging(int skip, int take)
+
+        protected void ApplyPaging(int skip, int take)
+        {
+            Take = take;
+            Skip = skip;
+            IsPagingEnabled = true;
         }
 
         #endregion

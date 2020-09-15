@@ -25,6 +25,8 @@ namespace INFRASTRUCTURE.Data
             _dbcontext = dbcontext;
         }
 
+       
+
         #endregion
 
         #region public async Task<T> GetByIdAsync(int id)
@@ -68,6 +70,15 @@ namespace INFRASTRUCTURE.Data
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_dbcontext.Set<T>().AsQueryable(),spec);
+        }
+
+        #endregion
+
+        #region  public Task<int> CountAsync(ISpecification<T> spec)
+
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
         }
 
         #endregion
